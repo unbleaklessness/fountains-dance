@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from scipy.fftpack import fft
 from scipy.io import wavfile
 
+
 def frequencies(path):
 
     fs, data = wavfile.read(path)
@@ -19,6 +20,7 @@ def plot_frequencies(path):
 
     plt.plot(f, 'r')
     plt.show()
+
 
 def frequencies_to_file(source, to):
     f = frequencies(source)
