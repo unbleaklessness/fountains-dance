@@ -1,0 +1,9 @@
+=== JAVASCRIPT
+
+https://codepen.io/Zeaklous/pen/bBJmbz
+
+=== PYTHON
+
+https://stackoverflow.com/questions/24382832/audio-spectrum-extraction-from-audio-file-by-python
+https://stackoverflow.com/questions/604453/analyze-audio-using-fast-fourier-transform/604756#604756
+
