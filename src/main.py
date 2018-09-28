@@ -1,3 +1,3 @@
-import plot_frequencies as plot_freq
+import frequencies as fr
 
-plot_freq.plot_frequencies('../music/moonlight.wav')
+fr.plot_frequencies('../music/moonlight.wav')
