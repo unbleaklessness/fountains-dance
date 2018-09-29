@@ -59,5 +59,5 @@ for n in range(nchannels):
     axes.xaxis.set_major_formatter(ticker.NullFormatter())
 
 axes.xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
-plt.savefig("wave", dpi=DPI)
+# plt.savefig("wave", dpi=DPI)
 plt.show()
