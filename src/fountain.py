@@ -1,4 +1,4 @@
-class Colors:
+class Color:
     none = '0'
     red = '1'
     green = '2'
@@ -28,7 +28,7 @@ class Fountain:
     # | - command_delimiterv.
     # ETC...
 
-    color = Colors.none
+    color = Color.none
     power = 0 # 0 ... 100
     max_power = 100
     fluency = 1 # 1, 2, 3...
@@ -122,3 +122,24 @@ class Fountain:
 
     def pause_pumps(self, time, circuit, pause_time):
         return self.make_command(time, self.PUMPS, circuit, ('flip', pause_time))
+
+    def open_valves(self, time, circuit):
+        return self.make_command(time, self.VALVES, circuit, 'on')
+
+    def close_valves(self, time, circuit):
+        return self.make_command(time, self.VALVES, circuit, 'off')
+
+    def valves_clockwise(self, time, circuit, delta, count):
+        return self.make_command(time, self.VALVES, circuit, ('cw', [delta, count]))
+
+    def valves_counter_clockwise(self, time, circuit, delta, count):
+        return self.make_command(time, self.VALVES, circuit, ('ccw', [delta, count]))
+
+    def valves_chess(self, time, circuit, delta, count):
+        return self.make_command(time, self.VALVES, circuit, ('chess', [delta, count]))
+
+    def backlight_clockwise(self, time, circuit, delta, count, color):
+        return self.make_command(time, self.BACKLIGHT, circuit, ('cl', [delta, count, color]))
+
+    def backlight_counter_clockwise(self, time, circuit, delta, count, color):
+        return self.make_command(time, self.BACKLIGHT, circuit, ('ccl', [delta, count, color]))
