@@ -29,11 +29,27 @@ class Fountain:
     VALVES = 1
     BACKLIGHT = 2
 
+    def format_milliseconds(self, millis):
+        """ Convert `time` in milliseconds to format: `{minutes}.{seconds}`.
+
+        Args:
+            millis: Integer. Time in milliseconds.
+
+        Returns:
+            str: Converted time in the format: `{minutes}.{seconds}`.
+        """
+
+        seconds = millis / 1000
+        minutes = seconds // 60
+        seconds = seconds % 60
+
+        return str(minutes) + '.' + str(seconds)
+
     def make_command(self, time, group, *args):
         """ Method to construct fountain commands.
 
         Args:
-            time: Command start time.
+            time: Command start time in milliseconds.
             group: What kind of group to target: pumps, valves or backlight group.
             args: Every even element is either:
                     + A pair-tuple of circuit number and pipe number.
@@ -59,7 +75,7 @@ class Fountain:
             print('Wrong `group` parameter passed to `make_command` method of `Fountain` class!')
             return
 
-        command = str(time) + self.time_delimiter
+        command = self.format_milliseconds(time) + self.time_delimiter
 
         for n in map(lambda x: x * 2, range(len(args) / 2)):
 
@@ -95,7 +111,7 @@ class Fountain:
         """ Turn pumps off.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -110,7 +126,7 @@ class Fountain:
         """ Sets pumps to maximum power (100).
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -125,7 +141,7 @@ class Fountain:
         """ Sets power for the pumps between 0 and 100.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -145,7 +161,7 @@ class Fountain:
         """ Sets power for the pumps between 0 and 100 with given fluency (1, 2, 3...).
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -166,7 +182,7 @@ class Fountain:
         """ Turn pumps off for a `time`, after that turn pumps on with previous power.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -182,7 +198,7 @@ class Fountain:
         """ Open valves...
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -197,7 +213,7 @@ class Fountain:
         """ Close valves...
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -212,7 +228,7 @@ class Fountain:
         """ Valves opens sequentially with interval `delta` and closes after `delta` * `count`.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -231,7 +247,7 @@ class Fountain:
         Opens counter clockwise.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -248,7 +264,7 @@ class Fountain:
         """ Sequentially opens and closes even and odd valves.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -266,7 +282,7 @@ class Fountain:
         returns to the original state.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
@@ -287,7 +303,7 @@ class Fountain:
         Light up counter clockwise.
 
         Args:
-            time: Start time.
+            time: Start time in milliseconds.
             target: One of the following:
                 1. Tuple-pair of group number and circuit number.
                 2. Only group number.
