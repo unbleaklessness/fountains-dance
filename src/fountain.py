@@ -1,4 +1,6 @@
 class Color:
+    """ Colors available for fountain backlight. """
+
     none = '0'
     red = '1'
     green = '2'
@@ -10,60 +12,52 @@ class Color:
 
 class Fountain:
 
-
-    # NAMING EXPLANATION:
-    #
-    # 0.10  m3x2:pf(70,3)|l3:b
-    #
-    # WHERE:
-    # 0.10 - Time.
-    # ' ' - time_delimiter.
-    # m - pumps_group_label.
-    # 3 - Group number
-    # x - circuit_label.
-    # 2 - Circuit number.
-    # : - group_delimiter.
-    # pf - Action name.
-    # (70,3) - Action arguments.
-    # | - command_delimiterv.
-    # ETC...
-
-    color = Color.none
+    color = Color.none # Current backlight color.
     power = 0 # 0 ... 100
     max_power = 100
     fluency = 1 # 1, 2, 3...
     time_delimiter = '\t' # Between time and commands.
-    group_delimiter = ':' # Between circuit and action.
+    group_delimiter = ':' # Between target group and actions.
     command_delimiter = '|' # Between different commands.
-    pumps_group_label = 'm'
-    valves_group_label = 'k'
-    backlight_group_label = 'l'
-    circuit_label = 'x'
+    pumps_group_label = 'm' # Denotes pumps target group.
+    valves_group_label = 'k' # Denotes valves target group.
+    backlight_group_label = 'l' # Denotes backlight target group.
+    circuit_label = 'x' # Placed between group number and circuit number.
 
+    """ TARGET GROUPS: """
     PUMPS = 0
     VALVES = 1
     BACKLIGHT = 2
 
-    # Method to construct fountain commands.
-    #
-    # `time` - Command start time.
-    # `group` - What kind of group to target: pumps, valves or backlight group.
-    # `args` - Every even element is either:
-    #            + A pair-tuple of circuit number and pipe number.
-    #            + Circuit number only.
-    #          Every odd element is either:
-    #            + A pair-tuple of action and array of argument for the action.
-    #            + A pair-tuple of action and single argument for the action (not array).
-    #            + Just action, without argument (not tuple).
-    #          You can pass multiple pairs to create complex commands.
     def make_command(self, time, group, *args):
+        """ Method to construct fountain commands.
+
+        Args:
+            time: Command start time.
+            group: What kind of group to target: pumps, valves or backlight group.
+            args: Every even element is either:
+                    + A pair-tuple of circuit number and pipe number.
+                    + Circuit number only.
+                Every odd element is one of the following:
+                    + A pair-tuple of action and array of argument for the action.
+                    + A pair-tuple of action and single argument for the action (not array).
+                    + Just action, without argument (not tuple).
+                You can pass multiple pairs to create complex commands.
+
+        Returns:
+            str: Constructed command.
+        """
+
         if len(args) % 2 != 0 or len(args) < 2:
-            print('Wrong number of arguments for `make_command` method!')
+            print('Wrong number of arguments for `make_command` method of `Fountain` class!')
             return
 
         if group == self.PUMPS: current_group_label = self.pumps_group_label
         elif group == self.VALVES: current_group_label = self.valves_group_label
         elif group == self.BACKLIGHT: current_group_label = self.backlight_group_label
+        else:
+            print('Wrong `group` parameter passed to `make_command` method of `Fountain` class!')
+            return
 
         command = str(time) + self.time_delimiter
 
@@ -97,49 +91,212 @@ class Fountain:
 
         return command
 
-    # Turn on pumps with maximum power.
-    def turn_on_pumps(self, time, circuit):
-        return self.make_command(time, self.PUMPS, circuit, 'on')
+    def turn_on_pumps(self, time, target):
+        """ Turn pumps off.
 
-    def turn_off_pumps(self, time, circuit):
-        return self.make_command(time, self.PUMPS, circuit, 'off')
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
 
-    # Set power for the pumps between 0 and 100.
-    #
-    # `pipe` - Tuple. First element - circuit group number, second - circuit number.
-    # `power`
-    def set_pumps_power(self, time, circuit, power):
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.PUMPS, target, 'on')
+
+    def turn_off_pumps(self, time, target):
+        """ Sets pumps to maximum power (100).
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.PUMPS, target, 'off')
+
+    def set_pumps_power(self, time, target, power):
+        """ Sets power for the pumps between 0 and 100.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            power: Power to set. Must be between 0 and 100.
+
+        Returns:
+            str: Constructed command.
+        """
+
         if power > self.max_power:
             print('Unable to set power above %s'.format(self.max_power))
             return
-        return self.make_command(time, self.PUMPS, circuit, ('sf', power))
 
-    def set_pumps_power_fluently(self, time, circuit, power, fluency):
+        return self.make_command(time, self.PUMPS, target, ('sf', power))
+
+    def set_pumps_power_fluently(self, time, target, power, fluency):
+        """ Sets power for the pumps between 0 and 100 with given fluency (1, 2, 3...).
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            power: Power to set. Must be between 0 and 100.
+            fluency: Fluency to set (1, 2, 3...).
+
+        Returns:
+            str: Constructed command.
+        """
+
         if power > self.max_power:
             print('Unable to set power above %s'.format(self.max_power))
             return
-        return self.make_command(time, self.PUMPS, circuit, ('pf', [power, fluency]))
 
-    def pause_pumps(self, time, circuit, pause_time):
-        return self.make_command(time, self.PUMPS, circuit, ('flip', pause_time))
+        return self.make_command(time, self.PUMPS, target, ('pf', [power, fluency]))
 
-    def open_valves(self, time, circuit):
-        return self.make_command(time, self.VALVES, circuit, 'on')
+    def pause_pumps(self, time, target, pause_time):
+        """ Turn pumps off for a `time`, after that turn pumps on with previous power.
 
-    def close_valves(self, time, circuit):
-        return self.make_command(time, self.VALVES, circuit, 'off')
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            pause_time: Pause time for pumps  in milliseconds.
 
-    def valves_clockwise(self, time, circuit, delta, count):
-        return self.make_command(time, self.VALVES, circuit, ('cw', [delta, count]))
+        Returns:
+            str: Constructed command.
+        """
 
-    def valves_counter_clockwise(self, time, circuit, delta, count):
-        return self.make_command(time, self.VALVES, circuit, ('ccw', [delta, count]))
+        return self.make_command(time, self.PUMPS, target, ('flip', pause_time))
 
-    def valves_chess(self, time, circuit, delta, count):
-        return self.make_command(time, self.VALVES, circuit, ('chess', [delta, count]))
+    def open_valves(self, time, target):
+        """ Open valves...
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.VALVES, target, 'on')
+
+    def close_valves(self, time, target):
+        """ Close valves...
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.VALVES, target, 'off')
+
+    def valves_clockwise(self, time, target, delta, count):
+        """ Valves opens sequentially with interval `delta` and closes after `delta` * `count`.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            delta: Time between valves switches in milliseconds.
+            count: Number of valves that opens simultaneously.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.VALVES, target, ('cw', [delta, count]))
+
+    def valves_counter_clockwise(self, time, target, delta, count):
+        """ Valves opens sequentially with interval `delta` and closes after `delta` * `count`.
+
+        Opens counter clockwise.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            delta: Time between valves switches in milliseconds.
+            count: Number of valves that opens simultaneously.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.VALVES, target, ('ccw', [delta, count]))
+
+    def valves_chess(self, time, target, delta, count):
+        """ Sequentially opens and closes even and odd valves.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            delta: Time between valves switches in milliseconds.
+            count: Number of valves in the group.
+
+        Returns:
+            str: Constructed command.
+        """
+
+        return self.make_command(time, self.VALVES, target, ('chess', [delta, count]))
 
     def backlight_clockwise(self, time, circuit, delta, count, color):
+        """ Groups lights up sequentially with `color` and interval `delta` and after that
+        returns to the original state.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            delta: Time between lighting up of lamp groups in milliseconds.
+            count: Number of groups.
+            color: Color to enable.
+
+        Returns:
+            str: Constructed command.
+        """
+
         return self.make_command(time, self.BACKLIGHT, circuit, ('cl', [delta, count, color]))
 
     def backlight_counter_clockwise(self, time, circuit, delta, count, color):
+        """ Groups lights up sequentially with `color` and interval `delta` and after that
+        returns to the original state.
+
+        Light up counter clockwise.
+
+        Args:
+            time: Start time.
+            target: One of the following:
+                1. Tuple-pair of group number and circuit number.
+                2. Only group number.
+            delta: Time between lighting up of lamp groups in milliseconds.
+            count: Number of groups.
+            color: Color to enable.
+
+        Returns:
+            str: Constructed command.
+        """
+
         return self.make_command(time, self.BACKLIGHT, circuit, ('ccl', [delta, count, color]))
