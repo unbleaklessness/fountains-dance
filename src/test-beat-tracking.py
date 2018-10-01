@@ -30,5 +30,7 @@ def main(argv):
     print(fountain.turn_off_circuit(11, 5))
     print(fountain.make_command(7, 5, 'test', 6, 'test2'))
     print(fountain.make_command(7, (5, 3), 'aa', (2, 3), 'tasd'))
+    print(fountain.make_command(7, (5, 3), ('aa', [1, 2, 3]), (2, 3), 'tasd'))
+    print(fountain.set_circuit_power(20, (3, 2), 87))
 
 if __name__ == '__main__': main(sys.argv[1:])

@@ -12,32 +12,56 @@ class Fountain:
 
     color = Colors.none
     power = 0 # 0 ... 100
+    max_power = 100
     fluency = 1 # 1, 2, 3...
     time_delimiter = '\t' # Between time and commands.
-    part_delimiter = ':' # Between circuit and action.
+    group_delimiter = ':' # Between circuit and action.
     command_delimiter = '|' # Between different commands.
-    circuit_label = 'm'
-    pipe_label = 'x'
+    circuit_group_label = 'm'
+    circuit_label = 'x'
 
     # Method to construct fountain commands.
     #
     # `time` - Command start time.
     # `args` - Every even element is either a pair of circuit number and pipe number or
-    #          circuit number only. Every odd element is an action.
-    #          You can pass multiple circuit-action pairs to create a complex command.
+    #          circuit number only.
+    #          Every odd element is either:
+    #          + A pair-tuple of action and array of argument for the action.
+    #          + A pair-tuple of action and single argument for the action (not array).
+    #          + Just action, without argument (not tuple).
+    #          You can pass multiple pairs to create a complex commands.
     def make_command(self, time, *args):
-        if (len(args) % 2 != 0 or len(args) < 2):
+        if len(args) % 2 != 0 or len(args) < 2:
             print('Wrong arguments for `make_command` method!')
             return
 
         command = str(time) + self.time_delimiter
 
         for n in map(lambda x: x * 2, range(len(args) / 2)):
-            if isinstance(args[0], tuple):
-                circuit, pipe = args[n]
-                command += self.circuit_label + str(circuit) + self.pipe_label + str(pipe) + self.part_delimiter + str(args[n + 1])
+
+            if type(args[n]) is tuple:
+                group, circuit = args[n]
+                command += self.circuit_group_label +  str(group) + self.circuit_label +  str(circuit)
             else:
-                command += self.circuit_label + str(args[n]) + self.part_delimiter + str(args[n + 1])
+                command += self.circuit_group_label +  str(args[n])
+
+            command += self.group_delimiter
+
+            if type(args[n + 1]) is tuple:
+                action, arguments = args[n + 1]
+                command += action + '('
+
+                if type(arguments) is list:
+                    for i in range(len(arguments)):
+                        command += str(arguments[i])
+                        if i < len(arguments) - 1: command += ','
+                else:
+                    command += str(arguments)
+
+                command += ')'
+            else:
+                command += args[n + 1]
+
             if n != len(args) - 2:
                 command += self.command_delimiter
 
@@ -49,3 +73,13 @@ class Fountain:
 
     def turn_off_circuit(self, time, circuit):
         return self.make_command(time, circuit, 'off')
+
+    # Set power for the pipe between 0 and 100.
+    #
+    # `pipe` - Tuple. First element - circuit group number, second - circuit number.
+    # `power`
+    def set_circuit_power(self, time, circuit, power):
+        if power > self.max_power:
+            print('Unable to set power above %s'.format(self.max_power))
+            return
+        return self.make_command(time, circuit, ('sf', power))
