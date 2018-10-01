@@ -277,7 +277,7 @@ class Fountain:
 
         return self.make_command(time, self.VALVES, target, ('chess', [delta, count]))
 
-    def backlight_clockwise(self, time, circuit, delta, count, color):
+    def backlight_clockwise(self, time, target, delta, count, color):
         """ Groups lights up sequentially with `color` and interval `delta` and after that
         returns to the original state.
 
@@ -294,9 +294,9 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.BACKLIGHT, circuit, ('cl', [delta, count, color]))
+        return self.make_command(time, self.BACKLIGHT, target, ('cl', [delta, count, color]))
 
-    def backlight_counter_clockwise(self, time, circuit, delta, count, color):
+    def backlight_counter_clockwise(self, time, target, delta, count, color):
         """ Groups lights up sequentially with `color` and interval `delta` and after that
         returns to the original state.
 
@@ -315,4 +315,4 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.BACKLIGHT, circuit, ('ccl', [delta, count, color]))
+        return self.make_command(time, self.BACKLIGHT, target, ('ccl', [delta, count, color]))

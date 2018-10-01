@@ -26,6 +26,7 @@ def main(argv):
     # print(get_beat_times(path))
 
     fountain = Fountain()
+    
     print(fountain.turn_on_pumps(76643653, 5))
     print(fountain.turn_off_pumps(735672, 5))
     print(fountain.set_pumps_power(77546654, (3, 2), 87))
