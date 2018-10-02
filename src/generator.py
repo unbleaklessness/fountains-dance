@@ -30,10 +30,6 @@ class Generator:
         counter_2 = 10
         counter_3 = 0
 
-        # freq_first = filter(lambda x: x % 2 == 0, self.freq_first)
-        # freq_second = filter(lambda x: x % 2 == 0, self.freq_first)
-        # self.freq_time = map(lambda x: x * 44100, self.freq_time)
-
         for index in range(len(self.freq_first) - 1):
             if index % 10000 == 0:
                 if counter_3 % 2 == 0:
