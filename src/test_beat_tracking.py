@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from fountain import *
+from plot_amplitude import pa
 
 np.seterr(invalid='ignore')
 
