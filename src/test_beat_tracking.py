@@ -30,7 +30,13 @@ def main(argv):
 
     print(beat_times)
 
-    plt.plot(beat_times, range(106))
+    # track_time = 106
+    # time_range = []
+    # for i in range(106 * 100)
+    #     time_range.append(i / 100)
+    t = np.linspace(0, 106, 106 * 100)
+
+    plt.plot(t, np.array(beat_times))
     plt.show()
 
 
