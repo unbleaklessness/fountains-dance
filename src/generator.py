@@ -47,3 +47,14 @@ class Generator:
                 if counter_2 < 1: counter_2 = 10
 
         self.output(commands)
+
+
+    def algorithm_3742(self):
+
+        commands = []
+
+        for index in range(len(self.freq_first) - 1):
+            if index % 10000 == 0:
+                
+
+        self.output(commands)

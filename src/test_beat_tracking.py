@@ -40,5 +40,4 @@ def main(argv):
     # plt.plot(t, np.array(beat_times))
     # plt.show()
 
-
 if __name__ == '__main__': main(sys.argv[1:])
