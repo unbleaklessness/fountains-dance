@@ -25,7 +25,7 @@ def plot_frequencies(path):
         return out
 
     figure, axis = plt.subplots()
-    axis.plot(frequencies[0], frequencies[1], 'r')
+    axis.plot(frequencies[0], frequencies[1], 'b-', frequencies[0], frequencies[2], 'g-', alpha = 0.5)
     axis.xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
 
     plt.show()
