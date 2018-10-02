@@ -107,6 +107,30 @@ class Fountain:
 
         return command
 
+    def combine(self, *args):
+        """ Combine multiple commands. Start time of the combined command is a start
+        time of the first passed command.
+        Number of arguments should be minimum 2.
+
+        Args:
+            args: Commands returned from methods of this class. Minimum number: 2.
+
+        Returns:
+            str: Combined command.
+        """
+
+        if len(args) < 2:
+            print('Wrong number of arguments for `combine` method of `Fountain` class!')
+
+        command = ''
+        command += args[0].split(self.time_delimiter)[0] + self.time_delimiter
+
+        for e in args:
+            command += e.split(self.time_delimiter)[1] + '|'
+        command = command[:len(command) - 1]
+
+        return command
+
     def turn_on_pumps(self, time, target):
         """ Turn pumps off.
 
