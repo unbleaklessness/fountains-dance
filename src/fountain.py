@@ -31,20 +31,20 @@ class Fountain:
     BACKLIGHT = 2
 
     def format_milliseconds(self, millis):
-        """ Convert `time` in milliseconds to format: `{minutes}.{seconds}`.
+        """ Convert `time` in milliseconds to format: `{seconds}.{1/100 of second}`.
 
         Args:
             millis: Integer. Time in milliseconds.
 
         Returns:
-            str: Converted time in the format: `{minutes}.{seconds}`.
+            str: Converted time in the format: `{seconds}.{1/100 of second}`.
         """
 
-        seconds = millis / 1000
-        minutes = seconds // 60
-        seconds = seconds % 60
+        seconds = millis // 1000
+        seconds_rest = int(round((millis % 1000) / 10, 0))
+        if seconds_rest // 10 == 0: seconds_rest = str(seconds_rest) + '0'
 
-        return str(minutes) + '.' + str(seconds)
+        return str(seconds) + '.' + str(seconds_rest)
 
     def make_command(self, time, group, *args):
         """ Method to construct fountain commands.

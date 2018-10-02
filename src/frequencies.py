@@ -10,7 +10,7 @@ def get_frequencies(path):
 
     time = []
     for index in range(len(data.T[0])):
-        time.append(float((1000.0 / rate) * index))
+        time.append(int((1000.0 / rate) * index))
 
     return [time, data.T[0], data.T[1]]
 
