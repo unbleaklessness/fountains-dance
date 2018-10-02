@@ -24,6 +24,7 @@ class Fountain:
     backlight_group_label = 'l' # Denotes backlight target group.
     circuit_label = 'x' # Placed between group number and circuit number.
 
+
     """ TARGET GROUPS: """
     PUMPS = 0
     VALVES = 1
