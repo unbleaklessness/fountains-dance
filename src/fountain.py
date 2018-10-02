@@ -106,6 +106,8 @@ class Fountain:
             if n != len(args) - 2:
                 command += self.command_delimiter
 
+            command += '\n'
+
         return command
 
     def combine(self, *args):

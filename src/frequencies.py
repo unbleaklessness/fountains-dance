@@ -1,32 +1,48 @@
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft
+import matplotlib.ticker as ticker
 from scipy.io import wavfile
+import numpy as np
+import sys
 
+def get_frequencies(path):
 
-def frequencies(path):
+    rate, data = wavfile.read(path)
 
-    fs, data = wavfile.read(path)
+    time = []
+    for index in range(len(data.T[0])):
+        time.append((1000.0 / rate) * index)
 
-    a = data.T[0]
-    b = [(e / 2 ** 8.) * 2 - 1 for e in a]
-    c = fft(b)
-    d = int(len(c) / 2)
-
-    return abs(c[:(d - 1)])
-
+    return [np.array(time), data.T[0], data.T[1]]
 
 def plot_frequencies(path):
-    f = frequencies(path)
+    frequencies = get_frequencies(path)
 
-    plt.plot(f, 'r')
+    def format_time(x, pos = None):
+        seconds = x / 1000
+        minutes = seconds // 60
+        seconds = seconds % 60
+        out = '%d:%d' % (minutes, seconds)
+        return out
+
+    figure, axis = plt.subplots()
+    axis.plot(frequencies[0], frequencies[1], 'r')
+    axis.xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
+
     plt.show()
 
-
 def frequencies_to_file(source, to):
-    f = frequencies(source)
+    frequencies = frequencies(source)
 
     file = open(to, 'w')
-    for e in f:
-        file.write(str(e) + '\n')
+    for index in range(len(frequencies) - 1):
+        file.write(str(frequencies[1][index]) + '    ' + frequencies[2][index] + '\n')
+
     file.close()
-    
+
+def main(argv):
+    path = argv[0]
+
+    plot_frequencies(path)
+    print(get_frequencies(path))
+
+if __name__ == '__main__': main(sys.argv[1:])

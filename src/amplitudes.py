@@ -75,13 +75,13 @@ def plot_amplitudes(path):
         if nchannels == 1:
             channel = channel - peak
 
-        axes = plt.subplot(2, 1, n + 1)
-        axes.plot(channel, 'g')
-        axes.yaxis.set_major_formatter(ticker.FuncFormatter(format_data))
+        axis = plt.subplot(2, 1, n + 1)
+        axis.plot(channel, 'g')
+        axis.yaxis.set_major_formatter(ticker.FuncFormatter(format_data))
         plt.grid(True, color = 'w')
-        axes.xaxis.set_major_formatter(ticker.NullFormatter())
+        axis.xaxis.set_major_formatter(ticker.NullFormatter())
 
-    axes.xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
+    axis.xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
     plt.show()
 
 def main(argv):

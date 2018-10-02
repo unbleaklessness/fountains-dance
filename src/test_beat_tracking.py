@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from fountain import *
-from plot_amplitude import pa
+import amplitude as amp
 
 np.seterr(invalid='ignore')
 
@@ -35,10 +35,10 @@ def main(argv):
     # time_range = []
     # for i in range(106 * 100)
     #     time_range.append(i / 100)
-    t = np.linspace(0, 106, 106 * 100)
+    # t = np.linspace(0, 106, 106 * 100)
 
-    plt.plot(t, np.array(beat_times))
-    plt.show()
+    # plt.plot(t, np.array(beat_times))
+    # plt.show()
 
 
 if __name__ == '__main__': main(sys.argv[1:])
