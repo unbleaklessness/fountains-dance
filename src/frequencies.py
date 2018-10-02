@@ -10,9 +10,9 @@ def get_frequencies(path):
 
     time = []
     for index in range(len(data.T[0])):
-        time.append((1000.0 / rate) * index)
+        time.append(float((1000.0 / rate) * index))
 
-    return [np.array(time), data.T[0], data.T[1]]
+    return [time, data.T[0], data.T[1]]
 
 def plot_frequencies(path):
     frequencies = get_frequencies(path)
