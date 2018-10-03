@@ -5,30 +5,18 @@ from scipy.io import wavfile
 import numpy as np
 import sys
 
-def get_frequencies(path):
+def get_amplitudes(path):
 
     rate, data = wavfile.read(path)
 
-    a1 = data.T[0]
-    # b1 = [(e / 2 ** 15.) * 2 - 1 for e in a1]
-    # c1 = fft(b1)
-    c1 = fft(a1)
-    d1 = int(len(c1) / 2)
-
     time = []
-    for index in range(len(c1[:(d1 - 1)])):
+    for index in range(len(data.T[0])):
         time.append(int((1000.0 / rate) * index))
 
-    a2 = data.T[1]
-    # b2 = [(e / 2 ** 15.) * 2 - 1 for e in a2]
-    # c2 = fft(b2)
-    c2 = fft(a2)
-    d2 = int(len(c2) / 2)
+    return [time, data.T[0], data.T[1]]
 
-    return [time, abs(c1[:(d1 - 1)]), abs(c2[:(d2 - 1)])]
-
-def plot_frequencies(path):
-    frequencies = get_frequencies(path)
+def plot_amplitudes(path):
+    frequencies = get_amplitudes(path)
 
     def format_time(x, pos = None):
         seconds = x / 1000
@@ -43,8 +31,17 @@ def plot_frequencies(path):
 
     plt.show()
 
+def amplitudes_to_file(source, to):
+    frequencies = frequencies(source)
+
+    file = open(to, 'w')
+    for index in range(len(frequencies) - 1):
+        file.write(str(frequencies[1][index]) + '    ' + frequencies[2][index] + '\n')
+
+    file.close()
+
 def main(argv):
     path = argv[0]
-    plot_frequencies(path)
+    plot_amplitudes(path)
 
 if __name__ == '__main__': main(sys.argv[1:])
