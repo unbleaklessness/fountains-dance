@@ -1,3 +1,6 @@
+import numpy as np
+from scipy.signal import argrelextrema
+
 from frequencies import *
 from fountain import *
 
@@ -53,8 +56,23 @@ class Generator:
 
         commands = []
 
-        for index in range(len(self.freq_first) - 1):
-            if index % 10000 == 0:
-                
+        # minimums = argrelextrema(self.freq_first, np.less)[0]
+        maximums = argrelextrema(self.freq_first, np.greater)[0].tolist()[1::50]
+
+        work_group = 8
+        commands.append(self.fountain.turn_on_pumps(0, work_group))
+
+        i = 0
+        for e in maximums:
+            if i % 2 == 0: del maximums[i]
+            if i != len(maximums) and maximums[i] - maximums[i + 1] < 5000: del maximums[i]
+            i += 1
+
+        last_time = 0
+        for e in maximums:
+            if last_time > self.freq_time[e] - 500: continue
+            commands.append(self.fountain.open_valves(self.freq_time[e], work_group))
+            last_time = self.freq_time[e] + 1000
+            commands.append(self.fountain.close_valves(last_time, work_group))
 
         self.output(commands)

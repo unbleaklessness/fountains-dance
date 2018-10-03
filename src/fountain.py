@@ -46,6 +46,9 @@ class Fountain:
 
         return str(seconds) + '.' + str(seconds_rest)
 
+    # def remove_with_same_time(self, commands):
+        # return filter(lambda e: len([x for x in commands if lambda n: n.startswith(e.split(self.time_delimiter)[0])]) == 1, commands)
+
     def make_command(self, time, group, *args):
         """ Method to construct fountain commands.
 
