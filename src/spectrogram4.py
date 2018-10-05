@@ -49,7 +49,7 @@ def logscale_spec(spec, sample_rate = 44100, factor = 20.):
     return newspec, freqs
 
 ''' Plot spectrogram: '''
-def plotstft(audiopath, binsize = 2 ** 10, plotpath = None, colormap = 'jet'):
+def plotstft(audiopath, binsize = 2 ** 10, colormap = 'jet', **kwargs):
     samplerate, samples = wav.read(audiopath)
 
     s = stft(samples, binsize)
@@ -65,7 +65,6 @@ def plotstft(audiopath, binsize = 2 ** 10, plotpath = None, colormap = 'jet'):
 
     plt.figure(figsize=(15, 7.5))
     plt.imshow(np.transpose(ims), origin = 'lower', aspect = 'auto', cmap = colormap, interpolation = 'none')
-    plt.colorbar()
 
     plt.xlabel('Time (s)')
     plt.ylabel('Frequency (Hz)')
@@ -77,21 +76,31 @@ def plotstft(audiopath, binsize = 2 ** 10, plotpath = None, colormap = 'jet'):
     ylocs = np.int16(np.round(np.linspace(0, freqbins - 1, 10)))
     plt.yticks(ylocs, ['%.02f' % freq[i] for i in ylocs])
 
-    if plotpath:
-        plt.savefig(plotpath, bbox_inches = 'tight')
+    if 'info' in kwargs and kwargs.get('info') == False:
+        plt.autoscale(False)
+        plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+        plt.gca().get_yaxis().set_visible(False)
+        plt.gca().get_xaxis().set_visible(False)
+        plt.gca().set_yticklabels([])
+        plt.gca().set_xticklabels([])
+        plt.gca().set_axis_off()
     else:
-        plt.show()
+        plt.colorbar()
 
+    if 'save' in kwargs and kwargs.get('save') == True:
+        plt.savefig(audiopath[:len(audiopath) - 4] + '_spectrogram.png', bbox_inches = 'tight', pad_inches = -0.04)
+
+    plt.show()
     plt.clf()
 
     return ims
 
-def plot_spectrogram(path):
-    plotstft('../classic_no_vocal.wav')
+def plot_spectrogram(path, **kwargs):
+    # '../kill_the_universe.wav'
+    plotstft('../moonlight.wav', **kwargs)
 
 def main(argv):
     wav_path = argv[0]
-    spectrogram_path = argv[1]
-    plot_spectrogram(path)
+    plot_spectrogram(wav_path, save = True, info = False)
 
 if __name__ == '__main__': main(sys.argv[1:])
