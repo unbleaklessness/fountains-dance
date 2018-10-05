@@ -97,7 +97,7 @@ def plotstft(audiopath, binsize = 2 ** 10, colormap = 'jet', **kwargs):
 
 def plot_spectrogram(path, **kwargs):
     # '../kill_the_universe.wav'
-    plotstft('../moonlight.wav', **kwargs)
+    plotstft(path, **kwargs)
 
 def main(argv):
     wav_path = argv[0]
