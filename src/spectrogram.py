@@ -8,8 +8,8 @@ def stft(sig, frameSize, overlapFac=0.5, window=np.hanning):
     win = window(frameSize)
     hopSize = int(frameSize - np.floor(overlapFac * frameSize))
 
-    # zeros at beginning (thus center of 1st window should be for sample nr. 0)   
-    samples = np.append(np.zeros(int(np.floor(frameSize/2.0))), sig)    
+    # zeros at beginning (thus center of 1st window should be for sample nr. 0)
+    samples = np.append(np.zeros(int(np.floor(frameSize/2.0))), sig)
     # cols for windowing
     cols = np.ceil( (len(samples) - frameSize) / float(hopSize)) + 1
     # zeros at end (thus samples can be fully covered by frames)
@@ -18,9 +18,9 @@ def stft(sig, frameSize, overlapFac=0.5, window=np.hanning):
     frames = stride_tricks.as_strided(samples, shape=(int(cols), frameSize), strides=(samples.strides[0]*hopSize, samples.strides[0])).copy()
     frames *= win
 
-    return np.fft.rfft(frames)    
+    return np.fft.rfft(frames)
 
-""" scale frequency axis logarithmically """    
+""" scale frequency axis logarithmically """
 def logscale_spec(spec, sr=44100, factor=20.):
     timebins, freqbins = np.shape(spec)
 
@@ -30,10 +30,10 @@ def logscale_spec(spec, sr=44100, factor=20.):
 
     # create spectrogram with new freq bins
     newspec = np.complex128(np.zeros([timebins, len(scale)]))
-    for i in range(0, len(scale)):        
+    for i in range(0, len(scale)):
         if i == len(scale)-1:
             newspec[:,i] = np.sum(spec[:,int(scale[i]):], axis=1)
-        else:        
+        else:
             newspec[:,i] = np.sum(spec[:,int(scale[i]):int(scale[i+1])], axis=1)
 
     # list center freq of bins
@@ -85,4 +85,4 @@ def plotstft(audiopath, binsize=2**10, plotpath=None, colormap="jet"):
 
     return ims
 
-ims = plotstft('music.wav')
+ims = plotstft('../classic_no_vocal.wav')

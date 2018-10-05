@@ -13,7 +13,6 @@ def graph_spectrogram(wav_file):
 
 def trim_whitespace(path):
     im = Image.open(path)
-    print("TES")
     bg = Image.new(im.mode, im.size, 'rgb(255,255,255)')
     diff = ImageChops.difference(im, bg)
     diff = ImageChops.add(diff, diff, 2.0, -100)
@@ -50,6 +49,6 @@ def main(argv):
     wav_path = argv[0]
     spectrogram_path = argv[1]
     save_spectrogram(wav_path, spectrogram_path)
-    trim_whitespace(spectrogram_path)
+    # trim_whitespace(spectrogram_path)
 
 if __name__ == '__main__': main(sys.argv[1:])
