@@ -76,6 +76,8 @@ def plotstft(audiopath, binsize = 2 ** 10, colormap = 'jet', **kwargs):
     ylocs = np.int16(np.round(np.linspace(0, freqbins - 1, 10)))
     plt.yticks(ylocs, ['%.02f' % freq[i] for i in ylocs])
 
+    pad_inches = 0
+
     if 'info' in kwargs and kwargs.get('info') == False:
         plt.autoscale(False)
         plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
@@ -84,11 +86,12 @@ def plotstft(audiopath, binsize = 2 ** 10, colormap = 'jet', **kwargs):
         plt.gca().set_yticklabels([])
         plt.gca().set_xticklabels([])
         plt.gca().set_axis_off()
+        pad_inches = -0.04
     else:
         plt.colorbar()
 
     if 'save' in kwargs and kwargs.get('save') == True:
-        plt.savefig(audiopath[:len(audiopath) - 4] + '_spectrogram.png', bbox_inches = 'tight', pad_inches = -0.04)
+        plt.savefig(audiopath[:len(audiopath) - 4] + '_spectrogram.png', bbox_inches = 'tight', pad_inches = pad_inches)
 
     plt.show()
     plt.clf()
@@ -101,6 +104,6 @@ def plot_spectrogram(path, **kwargs):
 
 def main(argv):
     wav_path = argv[0]
-    plot_spectrogram(wav_path, save = True, info = False)
+    plot_spectrogram(wav_path, save = True, info = True)
 
 if __name__ == '__main__': main(sys.argv[1:])
