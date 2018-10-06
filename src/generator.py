@@ -106,6 +106,7 @@ class Generator:
                 percents.append(round(value * i, 2))
             return percents
 
+
         def percentage(number, other_number): return (number * 100) / other_number
 
         for i in range(height):
