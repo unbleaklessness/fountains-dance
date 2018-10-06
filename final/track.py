@@ -1,6 +1,7 @@
 import sys
 import wave
 
+# Длительность трека в секундах
 def track_duration_seconds(path):
     file = wave.open(path)
     frames = file.getnframes()

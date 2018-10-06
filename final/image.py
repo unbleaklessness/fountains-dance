@@ -1,6 +1,7 @@
 from PIL import Image
 import sys
 
+# Получить 2D массив, состоящий из (GREYSCALE, R, G, B) картежей из изображения (для спектрограммы)
 def get_pixel_data(image_path):
     image = Image.open(image_path)
     rgb_image = image.convert('RGB')
