@@ -1,1 +1,6 @@
-4.50	l0:k|l1:k|l2:k|l3:k|l4:k|l5:k|l6:k|l7:k|l8:k|l9:k|l10:k|l11:k|l12:k|l13:k|l14:k
+19.13	l0:m|l1:m|l2:m|l3:m|l4:m|l5:m|l6:m|l7:m|l8:m|l9:m|l10:m|l11:m|l12:m|l13:m|l14:m
+19.13	l10:y|m10:sf(15)|m1x1:sf(30)|m1x2:sf(30)|l1x1:r|l1x2:r|m2x1:sf(30)|m2x2:sf(30)|l2x1:c|l2x2:c|m3x1:sf(30)|m3x2:sf(30)|l3x1:m|l3x2:m
+19.63	m1x1:sf(100)|m1x2:sf(100)|l1x1:c|l1x2:c|l2x1:m|l2x2:m|l3x1:y
+29.63	m2x1:sf(100)|m2x2:sf(100)|l1x1:m|l1x2:m|l2x1:y|l2x2:y|l3x1:c|m1x1:sf(30)|m1x2:sf(30)
+39.63	m3x1:sf(100)|m3x2:sf(100)|l1x1:y|l1x2:y|l2x1:c|l2x2:c|l3x1:m|m2x1:sf(30)|m2x2:sf(30)
+49.63	m1:off|m2:off|m3:off|m10:off

@@ -106,8 +106,12 @@ class Patterns(object):
 		commands.append( self.f.combine( *var ))
 		return commands
 	
+'''
+p = Patterns()
+commands = p.get_pattern(19134,30000,1)
 
-#out = file("partiture.txt","w")
-#for i in range(len(commands) ):
-#    out.write(commands[i])
-#out.close()
+out = file("partiture.txt","w")
+for i in range(len(commands) ):
+    out.write(commands[i])
+out.close()
+'''
