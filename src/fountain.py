@@ -136,6 +136,8 @@ class Fountain:
             command += part[:len(part) - 1] + '|'
         command = command[:len(command) - 1]
 
+        command += '\n'
+
         return command
 
     def turn_on_pumps(self, time, target):

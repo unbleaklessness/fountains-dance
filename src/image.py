@@ -65,10 +65,10 @@ def get_pixel_data(image_path):
     rgb_image = image.convert('RGB')
     height, width = rgb_image.size
     data = []
-    for i in range(height):
+    for i in range(width):
         data.append([])
-        for j in range(width):
-            r, g, b = rgb_image.getpixel((i, j))
+        for j in range(height):
+            r, g, b = rgb_image.getpixel((j, i))
             v = int(r * 0.7 + g * 0.2 + b * 0.1)
             data[i].append((v, r, g, b))
     return data
