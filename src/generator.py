@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.signal import argrelextrema
 import sys
+import math
 
 from fountain import *
 from image import get_pixel_data
@@ -183,27 +184,23 @@ class Generator:
             for j in range(len(strips[i][0])):
                 avg_strips[i].append(average_column(strips[i], j))
 
-        print(len(avg_strips), len(avg_strips[0]))
+        small_avg = []
 
-#        small_avg = []
-
-#        for i in range(len(avg_strips)):
-#            small_avg.append([])
-#            for j in range(len(avg_strips[i]) - 5):
-#                avg = avg_strips[i][j] + avg_strips[i][j + 1] + avg_strips[i][j + 2] + avg_strips[i][j + 3] + avg_strips[i][j + 4]
-#                small_avg[i].append(avg / 5)
+        for i in range(len(avg_strips)):
+            small_avg.append([])
+            for j in range(int(len(avg_strips[i]) / 5)):
+                avg = avg_strips[i][j] + avg_strips[i][j + 1] + avg_strips[i][j + 2] + avg_strips[i][j + 3] + avg_strips[i][j + 4]
+                small_avg[i].append(avg / 5)
 
         def smooth_map(x, in_min, in_max, out_min, out_max):
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 
         smooth_avg = []
 
-        for i in range(len(avg_strips)):
-            min_v = min(avg_strips[i])
-            max_v = max(avg_strips[i])
-            smooth_avg.append(list(map(lambda x: smooth_map(x, min_v, max_v, 0, 100), avg_strips[i])))
-
-        print(len(smooth_avg))
+        for i in range(len(small_avg)):
+            min_v = min(small_avg[i])
+            max_v = max(small_avg[i])
+            smooth_avg.append(list(map(lambda x: smooth_map(x, min_v, max_v, 0, 100), small_avg[i])))
 
         for i in range(len(smooth_avg[0])):
             commands.append(fountain.combine(
@@ -213,6 +210,100 @@ class Generator:
                 fountain.set_pumps_power(int(i * elem_time), 4, int(smooth_avg[3][i])),
                 fountain.set_pumps_power(int(i * elem_time), 5, int(smooth_avg[4][i]))
             ))
+
+        self.output(commands)
+
+    def algorithm_1124(self):
+
+        commands = []
+
+        fountain = Fountain()
+        duration = track_duration_seconds(self.music_path)
+
+        conturs_number = 12
+
+        for i in range(1, conturs_number):
+            commands.append(fountain.turn_on_pumps(0, i))
+            commands.append(fountain.open_valves(0, i))
+
+        pixels = get_pixel_data('../moonlight_spectrogram.png')
+        height = len(pixels)
+        width = len(pixels[0])
+
+        elem_time = duration / len(pixels[0]) * 1000
+
+        strips = []
+        for i in range(conturs_number): strips.append([])
+
+        def get_percents(steps):
+            percents = []
+            value = 1 / steps
+            for i in range(steps):
+                percents.append(round(value * i, 2) * 100)
+            percents = list(map(lambda x: math.floor(x + value * 100), percents))
+            return percents
+
+        def percentage(number, other_number): return (number * 100) / other_number
+
+        percents = get_percents(conturs_number)
+
+        for i in range(height):
+            percent = percentage(i, height)
+            for j in range(len(percents)):
+                if percent < percents[j]:
+                    strips[j].append(pixels[i])
+
+        avg_strips = []
+
+        def average_column(table, column_number):
+            avg = 0
+            for e in table:
+                v, r, g, b = e[column_number]
+                avg += v
+            avg /= len(table)
+            return avg
+
+        for i in range(len(strips)):
+            avg_strips.append([])
+            for j in range(len(strips[i][0])):
+                avg_strips[i].append(average_column(strips[i], j))
+
+        small_avg = []
+
+        for i in range(len(avg_strips)):
+            small_avg.append([])
+            for j in range(int(len(avg_strips[i]) / 5)):
+                avg = avg_strips[i][j] + avg_strips[i][j + 1] + avg_strips[i][j + 2] + avg_strips[i][j + 3] + avg_strips[i][j + 4]
+                small_avg[i].append(avg / 5)
+
+        def smooth_map(x, in_min, in_max, out_min, out_max):
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+
+        smooth_avg = []
+
+        for i in range(len(small_avg)):
+            min_v = min(small_avg[i])
+            max_v = max(small_avg[i])
+            smooth_avg.append(list(map(lambda x: smooth_map(x, min_v, max_v, 0, 100), small_avg[i])))
+
+
+        for i in range(len(smooth_avg[0])):
+            coms = []
+            for j in range(len(smooth_avg)):
+                coms.append(fountain.set_pumps_power(int(i * elem_time), j + 1, int(smooth_avg[j][i])))
+            commands.append(fountain.combine(*coms))
+
+        def filter_commands(commands):
+            remove_indexes = []
+            last = -1
+            for i in range(len(commands)):
+                current = int(commands[i].split('.')[0])
+                if current == last: remove_indexes.append(i)
+                last = current
+            for e in reversed(remove_indexes):
+                del commands[e]
+
+        filter_commands(commands)
 
         self.output(commands)
 
@@ -238,6 +329,6 @@ def main(argv):
     music_path = argv[0]
     partitura_path = argv[1]
     generator = Generator(music_path, partitura_path)
-    generator.algorithm_1123()
+    generator.algorithm_1124()
 
 if __name__ == '__main__': main(sys.argv[1:])
