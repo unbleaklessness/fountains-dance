@@ -60,9 +60,25 @@ def crops_pixel_data(crops_path):
             data[i].append((v, r, g, b))
     return data
 
+def get_pixel_data(image_path):
+    image = Image.open(image_path)
+    rgb_image = image.convert('RGB')
+    height, width = rgb_image.size
+    data = []
+    for i in range(height):
+        data.append([])
+        for j in range(width):
+            r, g, b = rgb_image.getpixel((i, j))
+            v = int(r * 0.7 + g * 0.2 + b * 0.1)
+            data[i].append((v, r, g, b))
+    return data
+
 def main(argv):
-    image_path = argv[0]
-    output_directory = argv[1]
-    pixel_strips(image_path, output_directory)
+#    image_path = argv[0]
+#    output_directory = argv[1]
+#    pixel_strips(image_path, output_directory)
+
+    path = argv[0]
+    data = get_pixel_data(path)
 
 if __name__ == '__main__': main(sys.argv[1:])
