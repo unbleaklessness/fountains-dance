@@ -57,11 +57,13 @@ def get_pixel_data(image_path):
             pixel = rgb_image.getpixel((i, j))
             data[i].append((pixel))
     return data
-    
 
 def main(argv):
-    image_path = argv[0]
-    output_directory = argv[1]
-    pixel_strips(image_path, output_directory)
+#    image_path = argv[0]
+#    output_directory = argv[1]
+#    pixel_strips(image_path, output_directory)
+
+    path = argv[0]
+    data = get_pixel_data(path)
 
 if __name__ == '__main__': main(sys.argv[1:])

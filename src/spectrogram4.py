@@ -104,6 +104,6 @@ def plot_spectrogram(path, **kwargs):
 
 def main(argv):
     wav_path = argv[0]
-    plot_spectrogram(wav_path, save = True, info = True)
+    plot_spectrogram(wav_path, save = True, info = False)
 
 if __name__ == '__main__': main(sys.argv[1:])
