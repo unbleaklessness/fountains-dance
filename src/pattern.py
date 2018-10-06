@@ -14,14 +14,23 @@ class Patterns(object):
 		#	0 - easy
 		#	1 - medium
 		#	2 - hight
+		#	3 - turn off lamps
 		self.start_time = start_time
 		self.duration = duration
 		if range == 0:
-			return self.rest()
+			commands = self.set_lamps("c")
+			commands += self.rest()
+			return commands
 		if range == 1:
-			return self.pattern1()
+			commands = self.set_lamps("m")
+			commands += self.pattern1()
+			return commands
 		if range == 2:
-			return self.huge_waves()
+			commands = self.set_lamps("y")
+			commands += self.huge_waves()
+			return commands
+		if range == 3:
+			return self.set_lamps('k')
 
 	def full_leap(self):
 		commands =[]
@@ -99,7 +108,7 @@ class Patterns(object):
 	
 
 p = Patterns()
-commands = p.get_pattern(4500,1000,1)
+commands = p.get_pattern(4500,1000,3)
 
 out = file("partiture.txt","w")
 for i in range(len(commands) ):
