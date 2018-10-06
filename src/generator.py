@@ -238,6 +238,28 @@ class Generator:
 
         self.output(commands)
 
+
+    def _algorithm_(self):
+        command = []
+        fountain = Fountain()
+        duration = track_duration_seconds(self.music_path)
+
+
+        commands.append(fountain.turn_on_pumps(0, 1))
+        commands.append(fountain.open_valves(0, 1))
+
+        pixels = get_pixel_data('../moonlight_spectrogram.png')
+        height = len(pixels)
+        width = len(pixels[0])
+
+        elem_time = duration / len(pixels[0]) * 1000
+
+        strips = []
+
+        
+
+
+
 def main(argv):
     music_path = argv[0]
     partitura_path = argv[1]
