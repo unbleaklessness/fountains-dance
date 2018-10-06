@@ -13,11 +13,6 @@ class Generator:
         self.partitura_path = partitura_path
         self.fountain = Fountain()
 
-        freq_data = get_frequencies(music_path)
-        self.freq_time = freq_data[0]
-        self.freq_first = freq_data[1]
-        self.freq_second = freq_data[2]
-
     def output(self, array):
         file = open(self.partitura_path, 'w')
         file.truncate(0)
@@ -26,32 +21,6 @@ class Generator:
             file.write(e)
 
         file.close()
-
-    def algorithm_1(self):
-
-        commands = []
-
-        counter_1 = 1
-        counter_2 = 10
-        counter_3 = 0
-
-        for index in range(len(self.freq_first) - 1):
-            if index % 10000 == 0:
-                if counter_3 % 2 == 0:
-                    commands.append(self.fountain.turn_off_pumps(self.freq_time[index], counter_1))
-                    commands.append(self.fountain.close_valves(self.freq_time[index], counter_1))
-                else:
-                    commands.append(self.fountain.turn_on_pumps(self.freq_time[index], counter_2))
-                    commands.append(self.fountain.open_valves(self.freq_time[index], counter_2))
-
-                counter_1 += 1
-                counter_2 -= 1
-                counter_3 += 1
-
-                if counter_1 > 10: counter_1 = 1
-                if counter_2 < 1: counter_2 = 10
-
-        self.output(commands)
 
 
     def algorithm_3742(self):
@@ -213,6 +182,16 @@ class Generator:
             avg_strips.append([])
             for j in range(len(strips[i][0])):
                 avg_strips[i].append(average_column(strips[i], j))
+
+        print(len(avg_strips), len(avg_strips[0]))
+
+#        small_avg = []
+
+#        for i in range(len(avg_strips)):
+#            small_avg.append([])
+#            for j in range(len(avg_strips[i]) - 5):
+#                avg = avg_strips[i][j] + avg_strips[i][j + 1] + avg_strips[i][j + 2] + avg_strips[i][j + 3] + avg_strips[i][j + 4]
+#                small_avg[i].append(avg / 5)
 
         def smooth_map(x, in_min, in_max, out_min, out_max):
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
