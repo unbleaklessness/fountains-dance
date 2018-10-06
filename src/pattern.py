@@ -14,14 +14,23 @@ class Patterns(object):
 		#	0 - easy
 		#	1 - medium
 		#	2 - hight
+		#	3 - turn off lamps
 		self.start_time = start_time
 		self.duration = duration
 		if range == 0:
-			return self.rest()
+			commands = self.set_lamps("c")
+			commands += self.rest()
+			return commands
 		if range == 1:
-			return self.pattern1()
+			commands = self.set_lamps("m")
+			commands += self.pattern1()
+			return commands
 		if range == 2:
-			return self.huge_waves()
+			commands = self.set_lamps("y")
+			commands += self.huge_waves()
+			return commands
+		if range == 3:
+			return self.set_lamps('k')
 
 	def full_leap(self):
 		commands =[]
@@ -69,16 +78,16 @@ class Patterns(object):
 	def pattern1(self):
 		commands = []
 		colors = ("c","m","y")
-		delta_time = 1.5
+		delta_time = self.duration /  3
 		commands.append( "%s\tl10:y|m10:sf(15)|m1x1:sf(30)|m1x2:sf(30)|l1x1:r|l1x2:r|m2x1:sf(30)|m2x2:sf(30)|l2x1:c|l2x2:c|m3x1:sf(30)|m3x2:sf(30)|l3x1:m|l3x2:m\n" % self.f.format_milliseconds(self.start_time) )
-		new_time = self.start_time + 0.5
+		new_time = self.start_time + 500
 		for i in range(1,4):
-			commands.append("%.2f\tm%dx1:sf(100)|m%dx2:sf(100)|l1x1:%s|l1x2:%s|l2x1:%s|l2x2:%s|l3x1:%s" % (new_time,i,i,colors[(i-1) % 3],colors[(i-1) % 3],colors[i % 3],colors[i % 3],colors[(i+1) % 3]) )
+			commands.append("%s\tm%dx1:sf(100)|m%dx2:sf(100)|l1x1:%s|l1x2:%s|l2x1:%s|l2x2:%s|l3x1:%s" % ( self.f.format_milliseconds(new_time),i,i,colors[(i-1) % 3],colors[(i-1) % 3],colors[i % 3],colors[i % 3],colors[(i+1) % 3]) )
 			if i!=1:
 				commands.append( "|m%dx1:sf(30)|m%dx2:sf(30)" % (i-1,i-1) )
 			commands.append("\n")
 			new_time += delta_time
-		commands.append("%0.2f\tm1:off|m2:off|m3:off|m10:off\n" % new_time )
+		commands.append("%s\tm1:off|m2:off|m3:off|m10:off\n" % self.f.format_milliseconds(new_time) )
 
 		return commands
 
@@ -97,9 +106,6 @@ class Patterns(object):
 		commands.append( self.f.combine( *var ))
 		return commands
 	
-
-#p = Patterns()
-#commands = p.get_pattern(0,1000,0)
 
 #out = file("partiture.txt","w")
 #for i in range(len(commands) ):
