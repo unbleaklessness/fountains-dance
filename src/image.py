@@ -5,6 +5,20 @@ import os
 CROP_NAME = 'crop'
 CROP_EXT = 'png'
 
+"""
+def pixel_horizontal_strips(image_path):
+    image = Image.open(image_path)
+    image_width, image_height = image.size
+    horizontal_line = []
+    data = [horizontal_line]
+    for i in range(image_height):
+        for j in range(image_width):
+            r, g, b = image.getpixel((i,j))
+            horizontal_line[j].append((r,g,b))
+        data[i].append(horizontal_line[j])
+    return data
+"""
+
 def pixel_strips(image_path, output_directory):
     """ Crop image on strips with width 1 and height of the image. """
 
