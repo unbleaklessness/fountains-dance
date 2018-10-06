@@ -1,8 +1,10 @@
 import numpy as np
 from scipy.signal import argrelextrema
+import sys
 
 from frequencies import *
 from fountain import *
+from image import get_pixel_data
 
 class Generator:
 
@@ -81,6 +83,32 @@ class Generator:
 
         commands = []
 
-        
+        pixels = get_pixel_data('../moonlight_spectrogram.png')
+        height = len(pixels)
+        width = len(pixels[0])
+
+        strips = []
+
+        def get_percents(steps):
+            percents = []
+            value = 1 / steps
+            for i in range(steps):
+                percents.append(round(value * i, 2))
+            return percents
+
+        def percentage(number, from): return (number * 100) / from
+
+        print(get_percents(5))
+
+        for i in range(height):
+            if percentage(i, height) < 
 
         self.output(commands)
+
+def main(argv):
+    music_path = argv[0]
+    partitura_path = argv[1]
+    generator = Generator(music_path, partitura_path)
+    generator.algorithm_1122()
+
+if __name__ == '__main__': main(sys.argv[1:])
