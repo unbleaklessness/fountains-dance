@@ -88,6 +88,7 @@ class Generator:
         width = len(pixels[0])
 
         strips = []
+        for i in range(5): strips.append([])
 
         def get_percents(steps):
             percents = []
@@ -96,12 +97,18 @@ class Generator:
                 percents.append(round(value * i, 2))
             return percents
 
-        def percentage(number, from): return (number * 100) / from
-
-        print(get_percents(5))
+        def percentage(number, other_number): return (number * 100) / other_number
 
         for i in range(height):
-            if percentage(i, height) < 
+            percent = percentage(i, height)
+            if percent < 10: strips[0].append(pixels[i])
+            elif percent < 40: strips[1].append(pixels[i])
+            elif percent < 60: strips[2].append(pixels[i])
+            elif percent < 80: strips[3].append(pixels[i])
+            else: strips[4].append(pixels[i])
+ 
+        for i in range(len(strips)):
+            print(len(strips[i]))
 
         self.output(commands)
 
