@@ -107,12 +107,25 @@ class Generator:
             elif percent < 80: strips[3].append(pixels[i])
             else: strips[4].append(pixels[i])
  
-        for i in range(len(strips)):
-            print(len(strips[i]))
+#        for i in range(len(strips)):
+#            print(len(strips[i]))
 
         avg_strips = []
 
-        
+        def average_column(table, column_number):
+            avg = 0
+            for e in table:
+                v, r, g, b = e[column_number]
+                avg += v
+            avg /= len(table)
+            return avg
+
+        for i in range(len(strips)):
+            avg_strips.append([])
+            for j in range(len(strips[i])):
+                avg_strips[i].append(average_column(strips[i], j))
+
+        print(avg_strips[0])
 
         self.output(commands)
 
