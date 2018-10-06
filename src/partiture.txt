@@ -1,2 +1,2 @@
 0.00	m7:on|m11:on|snake1:cwave(10,10)|snake2:cwave(10,10)|octagon1:cwave(10,10)|octagon2:cwave(10,10)|octagon3:cwave(10,10)|lsnake1:cLight(10,10,2)|lsnake2:cLight(10,10,2)
-10.00	m7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k
+1.00	m7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k

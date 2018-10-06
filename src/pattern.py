@@ -9,9 +9,19 @@ class Patterns(object):
 	count_of_elem = 15
 
 	
-	def get_pattern(self):
-		#Call other pattern depending params
-		pass
+	def get_pattern(self, start_time, duration, range):
+		#range:
+		#	0 - easy
+		#	1 - medium
+		#	2 - hight
+		self.start_time = start_time
+		self.duration = duration
+		if range == 0:
+			return self.rest()
+		if range == 1:
+			return self.pattern1()
+		if range == 2:
+			return self.huge_waves()
 
 	def full_leap(self):
 		commands =[]
@@ -73,10 +83,9 @@ class Patterns(object):
 		return commands
 
 	def rest(self): 
-		duration = 10000
 		commands =[]
 		commands.append("%s\tm7:on|m11:on|snake1:cwave(10,10)|snake2:cwave(10,10)|octagon1:cwave(10,10)|octagon2:cwave(10,10)|octagon3:cwave(10,10)|lsnake1:cLight(10,10,2)|lsnake2:cLight(10,10,2)\n" %  self.f.format_milliseconds(self.start_time) )
-		commands.append("%s\tm7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k" % self.f.format_milliseconds(self.start_time + duration ) )
+		commands.append("%s\tm7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k" % self.f.format_milliseconds(self.start_time + self.duration ) )
 
 		return commands
 
@@ -87,9 +96,11 @@ class Patterns(object):
 			var.append("%s\tl%d:%s\n" % ( self.f.format_milliseconds(self.start_time  ), i, color ))
 		commands.append( self.f.combine( *var ))
 		return commands
+	
 
 p = Patterns()
-commands = p.rest() 	
+commands = p.get_pattern(0,1000,0)
+
 out = file("partiture.txt","w")
 for i in range(len(commands) ):
     out.write(commands[i])
