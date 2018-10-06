@@ -96,12 +96,12 @@ class Generator:
                 percents.append(round(value * i, 2))
             return percents
 
-        def percentage(number, from): return (number * 100) / from
+#        def percentage(number, from): return (number * 100) / from
 
         print(get_percents(5))
 
-        for i in range(height):
-            if percentage(i, height) < 
+#        for i in range(height):
+#           if percentage(i, height) < 
 
         self.output(commands)
 
