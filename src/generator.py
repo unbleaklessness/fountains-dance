@@ -110,6 +110,10 @@ class Generator:
         for i in range(len(strips)):
             print(len(strips[i]))
 
+        avg_strips = []
+
+        
+
         self.output(commands)
 
 def main(argv):
