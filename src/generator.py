@@ -119,8 +119,6 @@ class Generator:
             small_avg_max = max(small_avg[i])
             small_avg[i] = list(map(lambda x: smooth_map(x, small_avg_min, small_avg_max, 0, 100), small_avg[i]))
 
-        print(small_avg)
-
         for i in range(len(small_avg[0])):
             commands.append(fountain.combine(
                 fountain.set_pumps_power(int(i * elem_time), 1, int(small_avg[0][i])),
