@@ -53,10 +53,16 @@ class Patterns(object):
 		#End
 		
 		return commands
+	def rest(self): 
+		duration = 10000
+		commands =[]
+		commands.append("%s\tm7:on|m11:on|snake1:cwave(10,10)|snake2:cwave(10,10)|octagon1:cwave(10,10)|octagon2:cwave(10,10)|octagon3:cwave(10,10)|lsnake1:cLight(10,10,2)|lsnake2:cLight(10,10,2)\n" %  self.f.format_milliseconds(self.start_time) )
+		commands.append("%s\tm7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k" % self.f.format_milliseconds(self.start_time + duration ) )
 
+		return commands
 
 p = Patterns()
-commands = p.huge_waves() 
+commands = p.rest() 
 out = file("partiture.txt","w")
 for i in range(len(commands) ):
     out.write(commands[i])
