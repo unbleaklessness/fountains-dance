@@ -98,10 +98,10 @@ class Patterns(object):
 		return commands
 	
 
-p = Patterns()
-commands = p.get_pattern(0,1000,0)
+#p = Patterns()
+#commands = p.get_pattern(0,1000,0)
 
-out = file("partiture.txt","w")
-for i in range(len(commands) ):
-    out.write(commands[i])
-out.close()
+#out = file("partiture.txt","w")
+#for i in range(len(commands) ):
+#    out.write(commands[i])
+#out.close()

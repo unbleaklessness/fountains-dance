@@ -6,7 +6,7 @@ import math
 from fountain import *
 from image import get_pixel_data
 from track import track_duration_seconds
-from pattern import Pattern
+from pattern import Patterns
 
 class Generator:
 
@@ -438,12 +438,12 @@ class Generator:
                 smooth_avg[i][j] = first_val
                 smooth_avg[i][j + 1] = second_val         
 
+        patterns = Patterns()
+
         for i in range(len(smooth_avg[0])):
             coms = []
-            
             for j in range(len(smooth_avg)):
-#                if smooth_avg[j][i]
-                coms.append(fountain.set_pumps_power(int(i * elem_time * 5), j + 1, int(smooth_avg[j][i])))
+                coms.append(fountain.set_pumps_power(int(i * elem_time * 5) + 1000, j + 1, int(smooth_avg[j][i])))
             commands.append(fountain.combine(*coms))
 
         def filter_commands(commands):
@@ -457,6 +457,14 @@ class Generator:
                 del commands[e]
 
         filter_commands(commands)
+
+        for i in range(len(smooth_avg[0])):
+            avg = 0
+            for j in range(len(smooth_avg)):
+                avg += smooth_avg[j][i]
+            if avg < 600:
+                pats = patterns.get_pattern(int(i * elem_time * 5) + 1000, 3 * 1000, 1)
+                for e in pats: commands.append(e)
 
         for i in range(1, conturs_number):
             commands.append(fountain.turn_off_pumps(duration * 1000, i))
