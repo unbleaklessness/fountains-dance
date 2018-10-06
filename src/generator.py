@@ -2,7 +2,6 @@ import numpy as np
 from scipy.signal import argrelextrema
 import sys
 
-from frequencies import *
 from fountain import *
 from image import get_pixel_data
 from track import track_duration_seconds
@@ -255,10 +254,6 @@ class Generator:
         elem_time = duration / len(pixels[0]) * 1000
 
         strips = []
-
-        
-
-
 
 def main(argv):
     music_path = argv[0]
