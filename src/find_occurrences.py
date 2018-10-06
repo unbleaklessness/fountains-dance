@@ -9,11 +9,12 @@ def convert_to_millsec(sec):
 spectr_path = '../../music/slow_vocal_spectrogram.png'
 music_path  = '../../music/slow_vocal.wav'
 
-
 image = Image.open(spectr_path)
 image_data = get_pixel_data(spectr_path)
 time_start_chorus = faoc(music_path, "../../music/tmp.wav", 15)
 time_start_chorus = convert_to_millsec(time_start_chorus)
+
+#milsec_in_pixel = 
 
 print(str(len(image_data) - int(time_start_chorus)))
 

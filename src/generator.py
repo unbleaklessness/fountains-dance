@@ -5,6 +5,7 @@ import sys
 from frequencies import *
 from fountain import *
 from image import get_pixel_data
+from track import track_duration_seconds
 
 class Generator:
 
@@ -83,11 +84,18 @@ class Generator:
 
         commands = []
 
+        fountain = Fountain()
+        duration = track_duration_seconds(self.music_path)
+        print(duration)
+
+        commands.append(fountain.turn_on_pumps(0, 8))
+
         pixels = get_pixel_data('../moonlight_spectrogram.png')
         height = len(pixels)
         width = len(pixels[0])
 
         strips = []
+        for i in range(5): strips.append([])
 
         def get_percents(steps):
             percents = []
@@ -96,12 +104,41 @@ class Generator:
                 percents.append(round(value * i, 2))
             return percents
 
-#        def percentage(number, from): return (number * 100) / from
 
-        print(get_percents(5))
+        def percentage(number, other_number): return (number * 100) / other_number
 
-#        for i in range(height):
-#           if percentage(i, height) < 
+        for i in range(height):
+            percent = percentage(i, height)
+            if percent < 10: strips[0].append(pixels[i])
+            elif percent < 40: strips[1].append(pixels[i])
+            elif percent < 60: strips[2].append(pixels[i])
+            elif percent < 80: strips[3].append(pixels[i])
+            else: strips[4].append(pixels[i])
+
+        avg_strips = []
+
+        def average_column(table, column_number):
+            avg = 0
+            for e in table:
+                v, r, g, b = e[column_number]
+                avg += v
+            avg /= len(table)
+            return avg
+
+        for i in range(len(strips)):
+            avg_strips.append([])
+            for j in range(len(strips[i])):
+                avg_strips[i].append(average_column(strips[i], j))
+
+        small_avg = []
+
+        for i in range(len(avg_strips[1]) - 5):
+            small_avg.append(avg_strips[1][i] + avg_strips[1][i + 1] + avg_strips[1][i + 2] + avg_strips[1][i + 3] + avg_strips[1][i + 4])
+
+        print(len(small_avg))
+
+#        for i in range(len(small_avg)):
+#            commands.append(fountain.open_valves()
 
         self.output(commands)
 

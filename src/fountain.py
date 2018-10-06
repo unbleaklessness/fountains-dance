@@ -81,7 +81,7 @@ class Fountain:
 
         command = self.format_milliseconds(time) + self.time_delimiter
 
-        for n in map(lambda x: x * 2, range(len(args) / 2)):
+        for n in map(lambda x: x * 2, range(int(len(args) / 2))):
 
             if type(args[n]) is tuple:
                 group, circuit = args[n]
@@ -132,8 +132,11 @@ class Fountain:
         command += args[0].split(self.time_delimiter)[0] + self.time_delimiter
 
         for e in args:
-            command += e.split(self.time_delimiter)[1] + '|'
+            part = e.split(self.time_delimiter)[1]
+            command += part[:len(part) - 1] + '|'
         command = command[:len(command) - 1]
+
+        command += '\n'
 
         return command
 
