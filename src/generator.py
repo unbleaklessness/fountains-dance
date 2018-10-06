@@ -76,3 +76,11 @@ class Generator:
             commands.append(self.fountain.close_valves(last_time, work_group))
 
         self.output(commands)
+
+    def algorithm_1122(self):
+
+        commands = []
+
+        
+
+        self.output(commands)

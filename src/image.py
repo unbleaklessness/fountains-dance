@@ -46,6 +46,19 @@ def crops_pixel_data(crops_path):
             data[i].append((v, r, g, b))
     return data
 
+def get_pixel_data(image_path):
+    image = Image.open(image_path)
+    rgb_image = image.convert('RGB')
+    height, width = rgb_image.size
+    data = []
+    for i in range(height):
+        data.append([])
+        for j in range(width):
+            pixel = rgb_image.getpixel((i, j))
+            data[i].append((pixel))
+    return data
+    
+
 def main(argv):
     image_path = argv[0]
     output_directory = argv[1]
