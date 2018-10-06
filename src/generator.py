@@ -141,6 +141,18 @@ class Generator:
 
         self.output(commands)
 
+'''def algorithm_hz_what_to_do(self):
+    
+    commands = []
+
+    data = image.get_pixel_data("C:\Users\Artem\Desktop\escala_spectrogram.png")
+    fountain = Fountain()
+    duration = track_duration_seconds(self.music_path)
+    
+'''
+
+
+
 def main(argv):
     music_path = argv[0]
     partitura_path = argv[1]
