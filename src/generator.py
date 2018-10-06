@@ -215,6 +215,9 @@ class Generator:
 
         commands = []
 
+        plot_spectrogram(music_path, save = True, info = False)
+        spectrogram_path = music_path[:len(music_path) - 3] + '_spectrogram.png'
+
         fountain = Fountain()
         duration = track_duration_seconds(self.music_path)
 
@@ -224,7 +227,7 @@ class Generator:
             commands.append(fountain.turn_on_pumps(0, i))
             commands.append(fountain.open_valves(0, i))
 
-        pixels = get_pixel_data('../moonlight_spectrogram.png')
+        pixels = get_pixel_data(spectrogram_path)
         height = len(pixels)
         width = len(pixels[0])
 
@@ -458,13 +461,13 @@ class Generator:
 
         filter_commands(commands)
 
-        for i in range(len(smooth_avg[0])):
-            avg = 0
-            for j in range(len(smooth_avg)):
-                avg += smooth_avg[j][i]
-            if avg < 600:
-                pats = patterns.get_pattern(int(i * elem_time * 5) + 1000, 3 * 1000, 1)
-                for e in pats: commands.append(e)
+#        for i in range(len(smooth_avg[0])):
+#            avg = 0
+#            for j in range(len(smooth_avg)):
+#                avg += smooth_avg[j][i]
+#            if avg < 600:
+#                pats = patterns.get_pattern(int(i * elem_time * 5) + 1000, 3 * 1000, 1)
+#                for e in pats: commands.append(e)
 
         for i in range(1, conturs_number):
             commands.append(fountain.turn_off_pumps(duration * 1000, i))
