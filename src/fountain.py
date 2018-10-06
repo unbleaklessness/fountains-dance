@@ -272,7 +272,7 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.VALVES, target, ('cw', [delta, count]))
+        return self.make_command(time, self.VALVES, target, ('cwave', [delta, count]))
 
     def valves_counter_clockwise(self, time, target, delta, count):
         """ Valves opens sequentially with interval `delta` and closes after `delta` * `count`.
@@ -291,7 +291,7 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.VALVES, target, ('ccw', [delta, count]))
+        return self.make_command(time, self.VALVES, target, ('ccwave', [delta, count]))
 
     def valves_chess(self, time, target, delta, count):
         """ Sequentially opens and closes even and odd valves.
@@ -327,7 +327,7 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.BACKLIGHT, target, ('cl', [delta, count, color]))
+        return self.make_command(time, self.BACKLIGHT, target, ('cLight', [delta, count, color]))
 
     def backlight_counter_clockwise(self, time, target, delta, count, color):
         """ Groups lights up sequentially with `color` and interval `delta` and after that
@@ -348,4 +348,4 @@ class Fountain:
             str: Constructed command.
         """
 
-        return self.make_command(time, self.BACKLIGHT, target, ('ccl', [delta, count, color]))
+        return self.make_command(time, self.BACKLIGHT, target, ('ccLight', [delta, count, color]))
