@@ -1,2 +1,5 @@
-0.00	m7:on|m11:on|snake1:cwave(10,10)|snake2:cwave(10,10)|octagon1:cwave(10,10)|octagon2:cwave(10,10)|octagon3:cwave(10,10)|lsnake1:cLight(10,10,2)|lsnake2:cLight(10,10,2)
-1.00	m7:off|lsnake1:off|lsnake2:off|m11:off|lsnake1:k|lsnake2:k
+4.50	l10:y|m10:sf(15)|m1x1:sf(30)|m1x2:sf(30)|l1x1:r|l1x2:r|m2x1:sf(30)|m2x2:sf(30)|l2x1:c|l2x2:c|m3x1:sf(30)|m3x2:sf(30)|l3x1:m|l3x2:m
+5.00	m1x1:sf(100)|m1x2:sf(100)|l1x1:c|l1x2:c|l2x1:m|l2x2:m|l3x1:y
+5.33	m2x1:sf(100)|m2x2:sf(100)|l1x1:m|l1x2:m|l2x1:y|l2x2:y|l3x1:c|m1x1:sf(30)|m1x2:sf(30)
+5.66	m3x1:sf(100)|m3x2:sf(100)|l1x1:y|l1x2:y|l2x1:c|l2x2:c|l3x1:m|m2x1:sf(30)|m2x2:sf(30)
+5.99	m1:off|m2:off|m3:off|m10:off
