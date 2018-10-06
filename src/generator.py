@@ -87,8 +87,8 @@ class Generator:
         fountain = Fountain()
         duration = track_duration_seconds(self.music_path)
 
-        commands.append(fountain.turn_on_pumps(0, 8))
-        commands.append(fountain.open_valves(0, 8))
+        commands.append(fountain.turn_on_pumps(0, 1))
+        commands.append(fountain.open_valves(0, 1))
 
         pixels = get_pixel_data('../moonlight_spectrogram.png')
         height = len(pixels)
@@ -141,12 +141,13 @@ class Generator:
             avg = avg_strips[1][i] + avg_strips[1][i + 1] + avg_strips[1][i + 2] + avg_strips[1][i + 3] + avg_strips[1][i + 4]
             small_avg.append(avg / 5)
 
-#        small_avg_min = min(small_avg)
-#        small_avg_max = max(small_avg)
-#        small_avg = map(lambda x: smooth_map(x, small_avg_min, small_avg_max, 0, 100), small_avg)
+        small_avg_min = min(small_avg)
+        small_avg_max = max(small_avg)
+        print(small_avg_min, small_avg_max)
+        small_avg = list(map(lambda x: smooth_map(x, small_avg_min, small_avg_max, 0, 100), small_avg))
 
         for i in range(len(small_avg)):
-            commands.append(fountain.set_pumps_power(int(i * elem_time + 1000), 8, int(small_avg[i] / 2.5)))
+            commands.append(fountain.set_pumps_power(int(i * elem_time + 1000), 1, int(small_avg[i])))
 
         self.output(commands)
 
